@@ -1,0 +1,10 @@
+This folder contains lab screenshots and the order in which the steps were completed.
+
+Step 1 - Lab Folder Structure Created
+Step 2 - AD Groups Created
+Step 3 - Users Added To Groups
+Step 4 - HR/IT/Finance Folders Created/Permissions
+Step 5 -Configured NTFS Permissions
+Step 6 - Disabled Inheritance
+Step 7 - Testing Access (Aproved)
+Step 8 - Testing Access (Denied)
