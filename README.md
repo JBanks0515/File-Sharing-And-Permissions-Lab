@@ -1,191 +1,161 @@
-🧪 File Sharing and Permissions Lab (Windows Server)
 
+# 🧪 File Sharing and Permissions Lab (Windows Server)
 
+## 📌 Overview
 
-📌 Overview
+* Demonstrates how to configure secure file sharing in a Windows Server environment
+* Uses **Active Directory** and **NTFS permissions** to control access
 
+---
 
-This lab demonstrates how to configure secure file sharing in a Windows Server environment using Active Directory and NTFS permissions.
+## 🎯 Objectives
 
+* Create department-based shared folders
+* Configure NTFS permissions:
 
+  * Read
+  * Modify
+  * Full Control
+* Assign access using security groups
+* Test access with different user accounts
+* Apply the principle of least privilege
+* Document and troubleshoot access issues
 
-🎯 Objectives
-Create department-based shared folders
+---
 
-Configure NTFS permissions (Read, Modify, Full Control)
+## 🖥️ Lab Environment
 
-Assign access using security groups
+* **Platform:** VirtualBox
+* **Domain Controller:** DC Server
+* **File Server:** Client Server
+* **Client Machine:** WinClient-Lab
 
-Test access with different user accounts
+---
 
-Apply the principle of least privilege
-
-Document and troubleshoot access issues
-
-🖥️ Lab Environment
-Platform: VirtualBox
-
-Domain Controller: DC Server
-
-File Server: Client Server
-
-Client Machines: WinClient-Lab
-
-🗂️ Folder Structure
-
+## 🗂️ Folder Structure
 
 Created on the File Server:
 
-
-
+```
 C:\CompanyShares
+├── HR
+├── IT
+└── Finance
+```
 
-HR
+---
 
-IT
+## 👥 Active Directory Configuration
 
-Finance
+### Security Groups Created
 
-👥 Active Directory Configuration
+* `HR_Users`
+* `IT_Users`
+* `Finance_Users`
 
+### Group Settings
 
-Security Groups Created
-HR_Users
+* **Group Scope:** Global
+* **Group Type:** Security
 
-IT_Users
+### User Assignment
 
-Finance_Users
+* Users were added to their respective department groups
 
+---
 
+## 🔗 Share Configuration
 
-Group Settings
-Group Scope: Global
+* Enabled **Advanced Sharing**
+* Removed default `Everyone` group
+* Assigned access to appropriate department group
 
-Group Type: Security
+---
 
+## 🔐 NTFS Permissions
 
+| Folder  | Group         | Permission |
+| ------- | ------------- | ---------- |
+| HR      | HR_Users      | Modify     |
+| IT      | IT_Users      | Modify     |
+| Finance | Finance_Users | Read       |
 
-User Assignment
-Users were added to their respective department groups
+### Security Improvements
 
-🔗 Share Configuration
+* Removed unnecessary permissions
+* Disabled inheritance where appropriate
+* Applied the **principle of least privilege**
 
+---
 
-Each folder was shared with the following settings:
+## 🧪 Access Testing
 
-Enabled Advanced Sharing
+### Method Used
 
-Removed default Everyone group
+* Used `runas` command to simulate user access:
 
-Assigned access to appropriate department group
-
-🔐 NTFS Permissions
-
-
-Folder
-
-Group
-
-Permission
-
-HR
-
-HR_Users
-
-Modify
-
-IT
-
-IT_Users
-
-Modify
-
-Finance
-
- Finance_Users
-
-  Read
-
-Security Improvements
-Removed unnecessary permissions
-
-Disabled inheritance where appropriate
-
-Applied least privilege principle
-
-🧪 Access Testing
-
-
-Tested access from client machines using different user accounts.
-
-
-
-Method Used
-
-
-Used runas command to simulate user access:
-
-
-
+```
 runas /user:DOMAIN\HR-User cmd
+```
 
+### Test Results
 
+**HR User**
 
-Test Results
-HR user:
+* ✅ Access to HR folder
+* ❌ No access to Finance folder
 
-✅ Access to HR folder
+**IT User**
 
-❌ No access to Finance folder
+* ✅ Access to IT folder
+* ❌ No access to HR or Finance folders
 
-IT user:
+**Finance User**
 
-✅ Access to IT folder
+* ✅ Read-only access to Finance folder
+* ❌ Cannot modify files
 
-❌ No access to HR/Finance folders
+---
 
-Finance user:
+## 🛠️ Troubleshooting
 
-✅ Read-only access to Finance folder
+### Issue: Trust Relationship Error
 
-❌ Cannot modify files
+**Error Message:**
 
-🛠️ Troubleshooting
-
-
-Issue: Trust Relationship Error
-
-
-Error:
-
+```
 “The security database on the server does not have a computer account for this workstation trust relationship”
+```
+
+### Cause
+
+* Broken secure channel between client and domain (common in virtual labs)
+
+### Solution
+
+* Verified domain connection
+* Used `runas` for testing instead of full login
+* Rejoined machine to the domain
+
+---
+
+## 🔑 Key Concepts Learned
+
+* Difference between **Share Permissions vs NTFS Permissions**
+* Importance of **Security Groups** over individual users
+* Implementation of **Least Privilege Access**
+* Basic Active Directory management
+* Troubleshooting domain trust issues
+
+---
+
+## ✅ Conclusion
+
+* Demonstrates secure management of shared resources in a Windows domain environment
+* Shows how proper use of:
+
+  * Active Directory groups
+  * NTFS permissions
+* Ensures controlled access aligned with real-world IT security practices
 
 
-
-Cause:
-
-Broken secure channel between client and domain (common in virtual labs)
-
-
-
-Solution:
-
-Verified domain connection
-
-Used runas for testing instead of full login
-
-Rejoined machine to domain
-
-🔑 Key Concepts Learned
-Difference between Share Permissions vs NTFS Permissions
-
-Importance of Security Groups over individual users
-
-Implementation of Least Privilege Access
-
-Basic Active Directory management
-
-Troubleshooting domain trust issues
-
-✅ Conclusion
-This lab demonstrates how to securely manage shared resources in a Windows domain environment. Proper use of Active Directory groups and NTFS permissions ensures controlled access and aligns with real-world IT security practices.
